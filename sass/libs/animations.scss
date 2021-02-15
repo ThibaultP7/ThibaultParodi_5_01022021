@@ -1,0 +1,71 @@
+@keyframes loading {
+    0% {
+        z-index: 2000;
+    }
+    99% {
+        z-index: 2000;
+    }
+    100% {
+        z-index: -1000;
+    }
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+        color: $primary;
+    }
+    50% {
+        transform: rotate(180deg);
+        color: $secondary;
+    }
+    99% {
+        transform: rotate(360deg);
+        color: $tertiary;
+    }
+    100% {
+        color: #0000;
+    }
+}
+
+@keyframes like_animation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 100;
+    }
+}
+
+@keyframes select_menu {
+    from {
+        width: 0px;
+        display: none;
+    }
+
+    to {
+        width: 70px;
+        display: inherit;
+    }
+}
+
+@keyframes rotate_circle {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dish_fade_in {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0px);
+        opacity: 100%;
+    }
+}

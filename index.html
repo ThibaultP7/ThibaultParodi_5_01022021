@@ -42,35 +42,18 @@
 	<main>
 		<div class="container">
 			<h1>Articles en vente</h1>
-			<div class="" id="produits">
+			<!-- Div affichant les eventuelles erreurs de l'API -->
+			<div id="api-errors"></div>
+			<!-- Div contenant les produits en vente extraits de l'API -->
+			<div id="products-container">
 
 			</div>
-			<script type="text/javascript">
-			var request = new XMLHttpRequest();
-			request.onreadystatechange = function() {
-				if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-					var response = JSON.parse(this.responseText);
-					var produits = document.getElementById("produits");
-					response.forEach((item) => {
-						var prod = document.createElement("div");
-						prod.setAttribute("id",item._id);
-						prod.innerHTML = item.name;
-						produits.append(prod);
-					});
-
-					console.error(response);
-					console.log("Connection à l'API réussie");
-				} else {
-					console.log("Erreur de connexion à l'API");
-				}
-			};
-			request.open("GET", "http://localhost:3000/api/cameras");
-			request.send();
-			</script>
+			<!-- Script de l'application gérant l'API -->
+			<script src="./js/app.js" charset="utf-8"></script>
 		</div>
 	</main>
-	<footer class="">
-
+	<footer>
+		<span class="font-weight-bold">&copy; Orinoco 2021</span>
 	</footer>
 </body>
 

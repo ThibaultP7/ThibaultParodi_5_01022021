@@ -1,0 +1,9 @@
+$small: 576px!default;
+$medium: 768px!default;
+$large: 992px!default;
+$xlarge: 1200px!default;
+
+$small-up: "only screen and (min-width: #{$small})";
+$medium-up: "only screen and (min-width: #{$medium})";
+$large-up: "only screen and (min-width: #{$large})";
+$xlarge-up: "only screen and (min-width: #{$xlarge})";
