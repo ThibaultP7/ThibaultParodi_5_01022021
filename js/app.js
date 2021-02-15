@@ -47,7 +47,7 @@ request.onreadystatechange = function() {
 		apiErrors.innerHTML = "";
 	} else {
 		// console.log("Erreur de connexion à l'API");
-		apiErrors.innerHTML = "Nous sommes désolé, il y a une erreur lors de la connexion à l'API.<br>Veuillez vérifier son état.";
+		apiErrors.innerHTML = '<div class="error">Nous sommes désolé, il y a une erreur lors de la connexion à l\'API.<br>Veuillez vérifier son état.</div>';
 	}
 };
 request.open("GET", "http://localhost:3000/api/cameras");
