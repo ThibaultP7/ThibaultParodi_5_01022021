@@ -42,14 +42,21 @@
 	<main>
 		<div class="container">
 			<h1>Informations sur le produit</h1>
-			<section id="product-informations">
-				
-			</section>
+			<!-- Div affichant les eventuelles erreurs de l'API -->
+			<div id="api-errors"></div>
+			<div id="product-informations">
+				<h2 id="product-name"></h2>
+			</div>
 		</div>
 	</main>
 	<footer class="">
 
 	</footer>
+	<!-- Script de l'application gérant l'API -->
+	<script src="./js/app.js" charset="utf-8"></script>
+	<script>
+		getProductInfos()
+	</script>
 </body>
 
 </html>
