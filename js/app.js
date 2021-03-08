@@ -22,10 +22,6 @@ if (localStorage.getItem("userCart")) {
 	localStorage.setItem("userCart", JSON.stringify(cart));
 };
 
-//Tableau et objet demandé par l'API pour la commande
-let contact;
-let products = [];
-
 //L'user a maintenant un panier
 let userCart = JSON.parse(localStorage.getItem("userCart"));
 
@@ -36,6 +32,8 @@ function getProducts() {
 	request.onreadystatechange = function() {
 		if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
 			var response = JSON.parse(this.responseText);
+
+			console.log(response);
 
 			var productsContainer = document.getElementById("products-container");
 			response.forEach((item) => {
@@ -89,6 +87,9 @@ function getProducts() {
 function getProductInfos() {
 	//Collecter l'URL après le ?id= pour le récupérer uniquement sur l'API
 	idProduit = location.search.substring(4);
+	if (location.search == '') {
+		console.log ("Adresse invalide");
+	}
 	console.log(idProduit);
 
 	var request = new XMLHttpRequest();
@@ -96,24 +97,32 @@ function getProductInfos() {
 		if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
 			var response = JSON.parse(this.responseText);
 
+			// console.log(response);
+			// console.log(response._id);
+
 			var productContainer = document.getElementById("product-informations");
-			response.forEach((item) => {
-				// Product container
-				var prodContainer = document.createElement("div");
-				prodContainer.setAttribute("id",item._id);
-				prodContainer.setAttribute("class","product-container p-2");
+			var productName = document.getElementById("product-name");
+			var productPrice = document.getElementById("product-price");
+			var productDescription = document.getElementById("product-description");
+			var productImage = document.getElementById("product-image");
+			var productOptions = document.getElementById("product-options");
 
-				// Append every element to the div
-				productsContainer.append(prodContainer);
-				var prodContainerId = document.getElementById(item._id);
-				prodContainerId.append(prodImgContainer);
-
-				var prodImgContainerId = document.getElementById(item._id+"-img");
-				prodImgContainerId.append(prodImg);
-
-				prodContainerId.append(prodName);
-				prodContainerId.append(prodPrice);
+			var text = "";
+			response.lenses.forEach((item) => {
+				text += "<option>" + item + "</option>";
 			});
+			productOptions.innerHTML = text;
+
+
+			productName.innerHTML = response.name;
+			productName.setAttribute("id",response._id);
+			productPrice.innerHTML = (response.price/100).toFixed(2)+"€";
+			productDescription.innerHTML = response.description;
+			productImage.setAttribute("src",response.imageUrl);
+
+			// console.error(response);
+			// console.log("Connection à l'API réussie");
+			apiErrors.innerHTML = "";
 		} else {
 			// console.log("Erreur de connexion à l'API");
 			apiErrors.innerHTML = '<div class="error">Nous sommes désolé, il y a une erreur lors de la connexion à l\'API.<br>Veuillez vérifier son état.</div>';
@@ -121,4 +130,13 @@ function getProductInfos() {
 	};
 	request.open("GET", "http://localhost:3000/api/cameras/"+ idProduit);
 	request.send();
+}
+
+function addToCart() {
+	let prodId = location.search.substring(4);
+	let lc = JSON.parse(localStorage.getItem("userCart"));
+	console.log(lc);
+	userCart.push(prodId);
+	localStorage.setItem("userCart", JSON.stringify(userCart));
+	console.log("Ajout au panier");
 }

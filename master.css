@@ -23,22 +23,33 @@ footer {
   background: linear-gradient(40deg, #E88D09, #8F5BFE);
 }
 
-.img-wrapper {
+#products-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+}
+#products-container .img-wrapper {
   width: 100%;
   height: 200px;
   border-radius: 10px;
   overflow: hidden;
 }
-.img-wrapper img {
+#products-container .img-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-#products-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 10px;
+#product-informations .img-wrapper {
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+#product-informations .img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .product-container {
