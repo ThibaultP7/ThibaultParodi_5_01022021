@@ -27,7 +27,7 @@
 				<div class="collapse navbar-collapse justify-content-between" id="navbarNav">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="#">Produits</a>
+							<a class="nav-link active" aria-current="page" href="index.html">Produits</a>
 						</li>
 					</ul>
 					<ul class="navbar-nav">
@@ -41,12 +41,52 @@
 	</header>
 	<main>
 		<div class="container">
-			<h1>Votre panier</h1>
+			<div class="row">
+				<h1>Votre panier</h1>
+				<div class="col-md-6">
+					<div id="cart-container" class="">
+
+					</div>
+				</div>
+				<div class="col-md-6">
+					<form>
+						<div class="mb-3">
+							<label for="firstName" class="form-label">Prénom</label>
+							<input type="text" class="form-control" id="firstName" aria-describedby="firstNameHelp">
+							<div id="firstNameHelp" class="form-text">Doit contenir au moins 1 caractère</div>
+						</div>
+						<div class="mb-3">
+							<label for="lastName" class="form-label">Nom</label>
+							<input type="text" class="form-control" id="lastName" aria-describedby="lastNameHelp">
+							<div id="lastNameHelp" class="form-text">Doit contenir au moins 1 caractère</div>
+						</div>
+						<div class="mb-3">
+							<label for="address" class="form-label">Adresse</label>
+							<input type="text" class="form-control" id="address" aria-describedby="addressHelp">
+							<div id="addressHelp" class="form-text">Doit contenir au moins 1 caractère</div>
+						</div>
+						<div class="mb-3">
+							<label for="city" class="form-label">Ville</label>
+							<input type="text" class="form-control" id="city" aria-describedby="cityHelp">
+						</div>
+						<div class="mb-3">
+							<label for="email" class="form-label">Adresse email</label>
+							<input type="email" class="form-control" id="email" pattern="\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b">
+						</div>
+						<button type="submit" class="btn btn-primary" onclick="checkout()">Valider la commande</button>
+					</form>
+				</div>
+			</div>
 		</div>
 	</main>
 	<footer class="text-center">
 		<span>&copy; Orinoco 2021</span>
 	</footer>
+	<!-- Script de l'application gérant l'API -->
+	<script src="./js/app.js" charset="utf-8"></script>
+	<script>
+	checkCart()
+	</script>
 </body>
 
 </html>

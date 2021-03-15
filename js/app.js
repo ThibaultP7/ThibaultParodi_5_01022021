@@ -134,9 +134,30 @@ function getProductInfos() {
 
 function addToCart() {
 	let prodId = location.search.substring(4);
-	let lc = JSON.parse(localStorage.getItem("userCart"));
-	console.log(lc);
+	let confirmMessage = document.getElementById("confirm-message");
 	userCart.push(prodId);
 	localStorage.setItem("userCart", JSON.stringify(userCart));
 	console.log("Ajout au panier");
+	confirmMessage.innerHTML = "Le produit a bien été ajouté, retour aux produits dans 2 secondes.";
+	console.log(userCart);
+	setTimeout(function(){
+		window.location.href = 'index.html';
+	}, 2000);
+}
+
+function checkCart() {
+	let cartContainer = document.getElementById("cart-container");
+	let cart = JSON.parse(localStorage.getItem("userCart"));
+	console.log(cart);
+	if (JSON.parse(localStorage.getItem("userCart")) == "") {
+		cartContainer.innerHTML = "Il semblerait que votre panier soit vide, allez commander quelques articles.";
+	} else {
+		userCart.forEach((item) => {
+			cartContainer.innerHTML += "<div class=\"row\">"+item+"</div>";
+		});
+	}
+}
+
+function checkout() {
+	
 }

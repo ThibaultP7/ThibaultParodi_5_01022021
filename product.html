@@ -27,7 +27,7 @@
 				<div class="collapse navbar-collapse justify-content-between" id="navbarNav">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="#">Produits</a>
+							<a class="nav-link active" aria-current="page" href="index.html">Produits</a>
 						</li>
 					</ul>
 					<ul class="navbar-nav">
@@ -45,17 +45,25 @@
 			<!-- Div affichant les eventuelles erreurs de l'API -->
 			<div id="api-errors"></div>
 			<div id="product-informations">
-				<h2 id="product-name"></h2>
-				<h3 id="product-price"></h3>
-				<p id="product-description"></p>
-				<div class="img-wrapper">
-					<img id="product-image" src="placeholder.jpg" alt="Image du produit">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="img-wrapper">
+							<img id="product-image" src="placeholder.jpg" alt="Image du produit">
+						</div>
+					</div>
+					<div class="col-md-8">
+						<h2 id="product-name"></h2>
+						<h3 id="product-price"></h3>
+						<p id="product-description"></p>
+						<label for="product-options">Option :</label>
+						<select id="product-options" class="form-select mb-2" name="">
+						</select>
+						<button class="btn btn-primary" type="button" name="button" onclick="addToCart()">Ajouter au panier</button>
+						<p id="confirm-message"></p>
+					</div>
 				</div>
-				<select id="product-options" class="" name="">
 
-				</select>
 			</div>
-			<button type="button" name="button" onclick="addToCart()">Ajouter au panier</button>
 		</div>
 	</main>
 	<footer class="">
@@ -64,7 +72,7 @@
 	<!-- Script de l'application gérant l'API -->
 	<script src="./js/app.js" charset="utf-8"></script>
 	<script>
-		getProductInfos()
+	getProductInfos()
 	</script>
 </body>
 
