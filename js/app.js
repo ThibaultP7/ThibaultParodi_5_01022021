@@ -1,15 +1,5 @@
 var apiErrors = document.getElementById("api-errors");
 
-/*Génération de l'URL de l'API selon le choix de produit à vendre
-**********************************************/
-
-// const PRODUCTTYPE = "cameras"  //Au choix entre : "cameras" - "furniture" - "teddies"
-// const APIURL = "http://localhost:3000/api/" + PRODUCTTYPE + "/";
-
-//id du produit pour permettre un tri dans l'API
-
-// let productId = "";
-
 /*L'utilisateur à besoin d'un panier dans le localStorage de son navigateur
 Vérifier si le panier existe dans le localStorage, sinon le créer et l'envoyer dans le localStorage au premier chargement du site quelque soit la page*/
 
@@ -132,6 +122,47 @@ function getProductInfos() {
 	request.send();
 }
 
+function getProductById(idProduit) {
+	var request = new XMLHttpRequest();
+	request.onreadystatechange = function() {
+		if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+			var response = JSON.parse(this.responseText);
+
+			// console.log(response);
+			// console.log(response._id);
+
+			var productContainer = document.getElementById("product-informations");
+			var productName = document.getElementById("product-name");
+			var productPrice = document.getElementById("product-price");
+			var productDescription = document.getElementById("product-description");
+			var productImage = document.getElementById("product-image");
+			var productOptions = document.getElementById("product-options");
+
+			var text = "";
+			response.lenses.forEach((item) => {
+				text += "<option>" + item + "</option>";
+			});
+			productOptions.innerHTML = text;
+
+
+			productName.innerHTML = response.name;
+			productName.setAttribute("id",response._id);
+			productPrice.innerHTML = (response.price/100).toFixed(2)+"€";
+			productDescription.innerHTML = response.description;
+			productImage.setAttribute("src",response.imageUrl);
+
+			// console.error(response);
+			// console.log("Connection à l'API réussie");
+			apiErrors.innerHTML = "";
+		} else {
+			// console.log("Erreur de connexion à l'API");
+			apiErrors.innerHTML = '<div class="error">Nous sommes désolé, il y a une erreur lors de la connexion à l\'API.<br>Veuillez vérifier son état.</div>';
+		}
+	};
+	request.open("GET", "http://localhost:3000/api/cameras/"+ idProduit);
+	request.send();
+}
+
 function addToCart() {
 	let prodId = location.search.substring(4);
 	let confirmMessage = document.getElementById("confirm-message");
@@ -148,16 +179,63 @@ function addToCart() {
 function checkCart() {
 	let cartContainer = document.getElementById("cart-container");
 	let cart = JSON.parse(localStorage.getItem("userCart"));
+	let total = 0;
 	console.log(cart);
 	if (JSON.parse(localStorage.getItem("userCart")) == "") {
 		cartContainer.innerHTML = "Il semblerait que votre panier soit vide, allez commander quelques articles.";
 	} else {
 		userCart.forEach((item) => {
-			cartContainer.innerHTML += "<div class=\"row\">"+item+"</div>";
+			var chain = '';
+			var request = new XMLHttpRequest();
+			request.onreadystatechange = function() {
+				if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+					var response = JSON.parse(this.responseText);
+
+					console.log(response.imageUrl);
+					chain += '<div class="col-2"><div class="thumbnail"><img src="'+response.imageUrl+'" alt="'+response.imageUrl+'"></div></div>';
+					chain += '<div class="col-7">'+response.name+'</div>';
+					chain += '<div class="col-3">'+(response.price/100).toFixed(2)+'€'+'</div>';
+					total += response.price;
+
+					cartContainer.innerHTML += "<div class=\"row\">"+chain+"</div>";
+				} else {
+					// console.log("Erreur de connexion à l'API");
+					// console.log('<div class="error">Nous sommes désolé, il y a une erreur lors de la connexion à l\'API.<br>Veuillez vérifier son état.</div>');
+				}
+			};
+			request.open("GET", "http://localhost:3000/api/cameras/"+ item);
+			request.send();
 		});
+		cartContainer.innerHTML += '<div class="row"><div class="col-2">Total :</div><div class="col-7"></div><div class="col-3">'+(total/100).toFixed(2)+'€'+'</div></div>"';
 	}
 }
 
+// function oldcheckCart() {
+// 	let cartContainer = document.getElementById("cart-container");
+// 	let cart = JSON.parse(localStorage.getItem("userCart"));
+// 	console.log(cart);
+// 	if (JSON.parse(localStorage.getItem("userCart")) == "") {
+// 		cartContainer.innerHTML = "Il semblerait que votre panier soit vide, allez commander quelques articles.";
+// 	} else {
+// 		userCart.forEach((item) => {
+// 			cartContainer.innerHTML += "<div class=\"row\">"+item+"</div>";
+// 			// Ajouter le prix selon l'ID du produit
+// 		});
+// 	}
+// }
+
 function checkout() {
-	
+	event.preventDefault();
+	firstName = document.getElementById("firstName");
+	lastName = document.getElementById("lastName");
+	address = document.getElementById("address");
+	city = document.getElementById("city");
+	email = document.getElementById("email");
+
+	if (firstName.value.length < 2) {
+		firstName.classList.add("is-invalid");
+	}
+	if (lastName.value.length < 2) {
+		lastName.classList.add("is-invalid");
+	}
 }

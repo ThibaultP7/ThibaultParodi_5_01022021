@@ -52,8 +52,23 @@ footer {
   object-fit: cover;
 }
 
+#cart-container div.row {
+  border-radius: 5px;
+  background-color: #fbcf8f;
+}
 #cart-container div.row:nth-child(even) {
-  background-color: #aaa;
+  background-color: #f9ba5e;
+}
+#cart-container div.row .thumbnail {
+  width: 100%;
+  height: auto;
+  padding: 5px;
+}
+#cart-container div.row .thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
 }
 
 .product-container {
