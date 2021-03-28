@@ -191,22 +191,18 @@ function checkCart() {
 				if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
 					var response = JSON.parse(this.responseText);
 
-					console.log(response.imageUrl);
 					chain += '<div class="col-2"><div class="thumbnail"><img src="'+response.imageUrl+'" alt="'+response.imageUrl+'"></div></div>';
 					chain += '<div class="col-7">'+response.name+'</div>';
 					chain += '<div class="col-3">'+(response.price/100).toFixed(2)+'€'+'</div>';
 					total += response.price;
 
 					cartContainer.innerHTML += "<div class=\"row\">"+chain+"</div>";
-				} else {
-					// console.log("Erreur de connexion à l'API");
-					// console.log('<div class="error">Nous sommes désolé, il y a une erreur lors de la connexion à l\'API.<br>Veuillez vérifier son état.</div>');
 				}
 			};
 			request.open("GET", "http://localhost:3000/api/cameras/"+ item);
 			request.send();
 		});
-		cartContainer.innerHTML += '<div class="row"><div class="col-2">Total :</div><div class="col-7"></div><div class="col-3">'+(total/100).toFixed(2)+'€'+'</div></div>"';
+		cartContainer.innerHTML += '<div class="row"><div class="col-2">Total :</div><div class="col-7"></div><div class="col-3">'+(total/100).toFixed(2)+'€'+'</div></div>';
 	}
 }
 
@@ -237,5 +233,9 @@ function checkout() {
 	}
 	if (lastName.value.length < 2) {
 		lastName.classList.add("is-invalid");
+	}
+
+	if (!error) {
+
 	}
 }
