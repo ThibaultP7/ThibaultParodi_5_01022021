@@ -178,12 +178,16 @@ function addToCart() {
 
 function checkCart() {
 	let cartContainer = document.getElementById("cart-container");
+	let totalContainer = document.getElementById("total-container");
+	let formulaire = document.getElementById("formulaire");
 	let cart = JSON.parse(localStorage.getItem("userCart"));
 	let totalText = document.getElementById("total");
 	let total = 0;
 	console.log(cart);
 	if (JSON.parse(localStorage.getItem("userCart")) == "") {
 		cartContainer.innerHTML = "Il semblerait que votre panier soit vide, allez commander quelques articles.";
+		formulaire.style.display = "none";
+		totalContainer.style.display = "none";
 	} else {
 		userCart.forEach((item) => {
 			var chain = '';
@@ -248,18 +252,15 @@ function checkout() {
 
 	// Si formulaire valide, confirmation et execution de la commande
 	if (!error) {
-		localStorage.setItem("firstName", JSON.stringify(firstName));
-		localStorage.setItem("lastName", JSON.stringify(lastName));
-		localStorage.setItem("address", JSON.stringify(address));
-		localStorage.setItem("city", JSON.stringify(city));
-		localStorage.setItem("email", JSON.stringify(email));
+		let cart = JSON.parse(localStorage.getItem("userCart"));
 
 		sendData = (object) => {
+			console.error("test");
 			var request = new XMLHttpRequest();
 				request.onreadystatechange = function() {
 					if(this.readyState == XMLHttpRequest.DONE && this.status == 201)
 					{
-						//Sauvegarde du retour de l'API dans la sessionStorage pour affichage dans order-confirm.html
+						//Sauvegarde du retour de l'API dans la sessionStorage pour affichage dans order-complete.html
 						sessionStorage.setItem("order", this.responseText);
 
 						//Chargement de la page de confirmation
@@ -273,5 +274,20 @@ function checkout() {
 			request.setRequestHeader("Content-Type", "application/json");
 			request.send(object);
 		};
+		let data = {
+			contact : {
+				firstName: firstName.value,
+				lastName: lastName.value,
+				address: address.value,
+				city: city.value,
+				email: email.value,
+			},
+			products: cart
+		}
+		sendData(JSON.stringify(data));
 	}
+}
+
+function clearStorage() {
+	localStorage.clear();
 }
