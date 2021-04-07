@@ -20,7 +20,7 @@ footer {
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(40deg, #E88D09, #8F5BFE);
+  border-top: 1px solid #0007;
 }
 
 .img-wrapper {
@@ -71,6 +71,11 @@ footer {
   border-radius: 5px;
 }
 
+.total {
+  border-radius: 5px;
+  background-color: #c3a7fe;
+}
+
 .product-container {
   width: 100%;
   border-radius: 10px;
@@ -87,6 +92,13 @@ footer {
   border: 2px solid orange;
   border-radius: 15px;
   background-color: #ffc966;
+}
+
+form input:valid {
+  background-color: #0f02;
+}
+form input:invalid {
+  background-color: #f002;
 }
 
 /*# sourceMappingURL=master.css.map */

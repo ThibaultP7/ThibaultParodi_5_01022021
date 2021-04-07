@@ -179,6 +179,7 @@ function addToCart() {
 function checkCart() {
 	let cartContainer = document.getElementById("cart-container");
 	let cart = JSON.parse(localStorage.getItem("userCart"));
+	let totalText = document.getElementById("total");
 	let total = 0;
 	console.log(cart);
 	if (JSON.parse(localStorage.getItem("userCart")) == "") {
@@ -194,7 +195,11 @@ function checkCart() {
 					chain += '<div class="col-2"><div class="thumbnail"><img src="'+response.imageUrl+'" alt="'+response.imageUrl+'"></div></div>';
 					chain += '<div class="col-7">'+response.name+'</div>';
 					chain += '<div class="col-3">'+(response.price/100).toFixed(2)+'€'+'</div>';
-					total += response.price;
+
+					total = total + parseFloat((response.price/100).toFixed(2));
+					// console.log(total);
+					totalText.innerHTML = total.toFixed(2)+'€';
+					localStorage.setItem("total", JSON.stringify(total));
 
 					cartContainer.innerHTML += "<div class=\"row\">"+chain+"</div>";
 				}
@@ -202,26 +207,13 @@ function checkCart() {
 			request.open("GET", "http://localhost:3000/api/cameras/"+ item);
 			request.send();
 		});
-		cartContainer.innerHTML += '<div class="row"><div class="col-2">Total :</div><div class="col-7"></div><div class="col-3">'+(total/100).toFixed(2)+'€'+'</div></div>';
 	}
 }
 
-// function oldcheckCart() {
-// 	let cartContainer = document.getElementById("cart-container");
-// 	let cart = JSON.parse(localStorage.getItem("userCart"));
-// 	console.log(cart);
-// 	if (JSON.parse(localStorage.getItem("userCart")) == "") {
-// 		cartContainer.innerHTML = "Il semblerait que votre panier soit vide, allez commander quelques articles.";
-// 	} else {
-// 		userCart.forEach((item) => {
-// 			cartContainer.innerHTML += "<div class=\"row\">"+item+"</div>";
-// 			// Ajouter le prix selon l'ID du produit
-// 		});
-// 	}
-// }
-
 function checkout() {
+	// Vérification du formulaire
 	event.preventDefault();
+	error = false;
 	firstName = document.getElementById("firstName");
 	lastName = document.getElementById("lastName");
 	address = document.getElementById("address");
@@ -230,12 +222,56 @@ function checkout() {
 
 	if (firstName.value.length < 2) {
 		firstName.classList.add("is-invalid");
+		console.log("firstName non conforme");
+		error = true;
 	}
 	if (lastName.value.length < 2) {
 		lastName.classList.add("is-invalid");
+		console.log("lastName non conforme");
+		error = true;
+	}
+	if (address.value.length < 2) {
+		address.classList.add("is-invalid");
+		console.log("3");
+		error = true;
+	}
+	if (city.value.length < 2) {
+		city.classList.add("is-invalid");
+		console.log("4");
+		error = true;
+	}
+	if (email.value.length < 2) {
+		email.classList.add("is-invalid");
+		console.log("5");
+		error = true;
 	}
 
+	// Si formulaire valide, confirmation et execution de la commande
 	if (!error) {
+		localStorage.setItem("firstName", JSON.stringify(firstName));
+		localStorage.setItem("lastName", JSON.stringify(lastName));
+		localStorage.setItem("address", JSON.stringify(address));
+		localStorage.setItem("city", JSON.stringify(city));
+		localStorage.setItem("email", JSON.stringify(email));
 
+		sendData = (object) => {
+			var request = new XMLHttpRequest();
+				request.onreadystatechange = function() {
+					if(this.readyState == XMLHttpRequest.DONE && this.status == 201)
+					{
+						//Sauvegarde du retour de l'API dans la sessionStorage pour affichage dans order-confirm.html
+						sessionStorage.setItem("order", this.responseText);
+
+						//Chargement de la page de confirmation
+						document.forms["order-form"].action = './order-complete.html';
+						document.forms["order-form"].submit();
+
+						resolve(JSON.parse(this.responseText));
+					}
+				};
+			request.open("POST", "http://localhost:3000/api/cameras/order");
+			request.setRequestHeader("Content-Type", "application/json");
+			request.send(object);
+		};
 	}
 }

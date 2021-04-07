@@ -47,33 +47,36 @@
 					<div id="cart-container" class="">
 
 					</div>
-					<div class="row">
+					<div class="row total">
 						<div class="col-2">Total :</div><div class="col-7"></div><div class="col-3"><span id="total"></span></div>
 					</div>
 				</div>
 				<div class="col-md-6">
-					<form>
+					<form method="post" name="order-form">
 						<div class="mb-3">
 							<label for="firstName" class="form-label">Prénom</label>
-							<input type="text" class="form-control" id="firstName" aria-describedby="firstNameHelp" required>
-							<div id="firstNameHelp" class="form-text">Doit contenir au moins 2 caractères</div>
+							<input type="text" class="form-control" id="firstName" pattern="[a-zA-Z\-]{2,}" aria-describedby="firstNameHelp" required>
+							<div id="firstNameHelp" class="form-text">Doit contenir au moins 2 lettres</div>
 						</div>
 						<div class="mb-3">
 							<label for="lastName" class="form-label">Nom</label>
-							<input type="text" class="form-control" id="lastName" aria-describedby="lastNameHelp" required>
-							<div id="lastNameHelp" class="form-text">Doit contenir au moins 2 caractères</div>
+							<input type="text" class="form-control" id="lastName" pattern="[a-zA-Z\-]{2,}" aria-describedby="lastNameHelp" required>
+							<div id="lastNameHelp" class="form-text">Doit contenir au moins 2 lettres</div>
 						</div>
 						<div class="mb-3">
 							<label for="address" class="form-label">Adresse</label>
-							<input type="text" class="form-control required" id="address" aria-describedby="addressHelp" required>
+							<input type="text" class="form-control required" id="address" pattern="[a-zA-Z0-9\- ]+" aria-describedby="addressHelp" required>
+							<div id="addressHelp" class="form-text">Doit contenir des chiffres et/ou des lettres</div>
 						</div>
 						<div class="mb-3">
 							<label for="city" class="form-label">Ville</label>
-							<input type="text" class="form-control" id="city" aria-describedby="cityHelp" required>
+							<input type="text" class="form-control" id="city" pattern="[a-zA-Z]{2,}" aria-describedby="cityHelp" required>
+							<div id="cityHelp" class="form-text">Doit contenir au moins 2 lettres</div>
 						</div>
 						<div class="mb-3">
 							<label for="email" class="form-label">Adresse email</label>
-							<input type="email" class="form-control" id="email" pattern="\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b" required>
+							<input type="email" class="form-control" id="email" pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,}$" aria-describedby="emailHelp" required>
+							<div id="emailHelp" class="form-text">Veuillez indiquer une adresse email valide</div>
 						</div>
 						<button type="submit" class="btn btn-primary" onclick="checkout()">Valider la commande</button>
 					</form>
