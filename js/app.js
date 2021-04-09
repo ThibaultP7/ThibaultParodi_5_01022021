@@ -255,23 +255,21 @@ function checkout() {
 		let cart = JSON.parse(localStorage.getItem("userCart"));
 
 		sendData = (object) => {
-			console.error("test");
 			var request = new XMLHttpRequest();
 				request.onreadystatechange = function() {
 					if(this.readyState == XMLHttpRequest.DONE && this.status == 201)
 					{
-						//Sauvegarde du retour de l'API dans la sessionStorage pour affichage dans order-complete.html
-						sessionStorage.setItem("order", this.responseText);
+						// Sauvegarde du retour de l'API dans le localStorage pour affichage dans order-complete.html
+						localStorage.setItem("order", this.responseText);
 
-						//Chargement de la page de confirmation
+						// Chargement de la page de confirmation
 						document.forms["order-form"].action = './order-complete.html';
 						document.forms["order-form"].submit();
-
-						resolve(JSON.parse(this.responseText));
 					}
 				};
 			request.open("POST", "http://localhost:3000/api/cameras/order");
 			request.setRequestHeader("Content-Type", "application/json");
+			console.log(data);
 			request.send(object);
 		};
 		let data = {
@@ -285,9 +283,24 @@ function checkout() {
 			products: cart
 		}
 		sendData(JSON.stringify(data));
+	} else {
+		console,log("Erreur dans le formulaire");
 	}
 }
 
-function clearStorage() {
-	localStorage.clear();
+function order() {
+	let content = document.getElementById("order-content");
+	let order = JSON.parse(localStorage.getItem("order"));
+	let total = localStorage.getItem("total");
+	if (order == null) {
+		console.log("Pas de commande");
+		content.innerHTML = "<p>Il y a une erreur avec votre commande. Veuillez-passer commande depuis la page contenant votre panier.</p>"
+
+	} else {
+		console.log("Commande en cours");
+		console.log(order);
+		content.innerHTML = "<p>Merci pour votre commande !<br>Identifiant de la commande : "+order.orderId+"<br>Total de la commande : "+((total*100)/100).toFixed(2)+"€</p>";
+		// localStorage.removeItem("order");
+		localStorage.clear();
+	}
 }
