@@ -77,10 +77,8 @@ function getProducts() {
 function getProductInfos() {
 	//Collecter l'URL après le ?id= pour le récupérer uniquement sur l'API
 	idProduit = location.search.substring(4);
-	if (location.search == '') {
-		console.log ("Adresse invalide");
-	}
 	console.log(idProduit);
+	let productInformations = document.getElementById("product-informations");
 
 	var request = new XMLHttpRequest();
 	request.onreadystatechange = function() {
@@ -113,9 +111,14 @@ function getProductInfos() {
 			// console.error(response);
 			// console.log("Connection à l'API réussie");
 			apiErrors.innerHTML = "";
+			productInformations.style.display = "inherit";
+		} else if((this.readyState == XMLHttpRequest.DONE && this.status == 500) || (location.search == "")){
+			apiErrors.innerHTML = '<div class="error">Le produit demandé n\'existe pas.</div>';
+			productInformations.style.display = "none";
 		} else {
 			// console.log("Erreur de connexion à l'API");
 			apiErrors.innerHTML = '<div class="error">Nous sommes désolé, il y a une erreur lors de la connexion à l\'API.<br>Veuillez vérifier son état.</div>';
+			productInformations.style.display = "none";
 		}
 	};
 	request.open("GET", "http://localhost:3000/api/cameras/"+ idProduit);
@@ -154,6 +157,8 @@ function getProductById(idProduit) {
 			// console.error(response);
 			// console.log("Connection à l'API réussie");
 			apiErrors.innerHTML = "";
+		} else if (location.search == '') {
+
 		} else {
 			// console.log("Erreur de connexion à l'API");
 			apiErrors.innerHTML = '<div class="error">Nous sommes désolé, il y a une erreur lors de la connexion à l\'API.<br>Veuillez vérifier son état.</div>';
@@ -224,29 +229,29 @@ function checkout() {
 	city = document.getElementById("city");
 	email = document.getElementById("email");
 
-	if (firstName.value.length < 2) {
+	if (firstName.value.length < 2 && !firstName.value.match("[a-zA-ZÀ-ÿ\-]{2,}")) {
 		firstName.classList.add("is-invalid");
 		console.log("firstName non conforme");
 		error = true;
 	}
-	if (lastName.value.length < 2) {
+	if (lastName.value.length < 2 && !lastName.value.match("[a-zA-ZÀ-ÿ\-]{2,}")) {
 		lastName.classList.add("is-invalid");
 		console.log("lastName non conforme");
 		error = true;
 	}
-	if (address.value.length < 2) {
+	if (address.value.length < 5 && !address.value.match("[a-zA-ZÀ-ÿ0-9\- ]{5,}")) {
 		address.classList.add("is-invalid");
-		console.log("3");
+		console.log("address non conforme");
 		error = true;
 	}
-	if (city.value.length < 2) {
+	if (city.value.length < 2 && !address.value.match("[a-zA-ZÀ-ÿ]{2,}")) {
 		city.classList.add("is-invalid");
-		console.log("4");
+		console.log("city non conforme");
 		error = true;
 	}
-	if (email.value.length < 2) {
+	if (email.value.length < 6 && !address.value.match("^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,}$")) {
 		email.classList.add("is-invalid");
-		console.log("5");
+		console.log("email non conforme");
 		error = true;
 	}
 
@@ -284,7 +289,7 @@ function checkout() {
 		}
 		sendData(JSON.stringify(data));
 	} else {
-		console,log("Erreur dans le formulaire");
+		console.log("Erreur dans le formulaire");
 	}
 }
 

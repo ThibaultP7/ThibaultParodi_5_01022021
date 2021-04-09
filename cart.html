@@ -55,22 +55,22 @@
 					<form method="post" name="order-form">
 						<div class="mb-3">
 							<label for="firstName" class="form-label">Prénom</label>
-							<input type="text" class="form-control" id="firstName" pattern="[a-zA-Z\-]{2,}" aria-describedby="firstNameHelp" required>
+							<input type="text" class="form-control" id="firstName" pattern="[a-zA-ZÀ-ÿ\-]{2,}" aria-describedby="firstNameHelp" required>
 							<div id="firstNameHelp" class="form-text">Doit contenir au moins 2 lettres</div>
 						</div>
 						<div class="mb-3">
 							<label for="lastName" class="form-label">Nom</label>
-							<input type="text" class="form-control" id="lastName" pattern="[a-zA-Z\-]{2,}" aria-describedby="lastNameHelp" required>
+							<input type="text" class="form-control" id="lastName" pattern="[a-zA-ZÀ-ÿ\-]{2,}" aria-describedby="lastNameHelp" required>
 							<div id="lastNameHelp" class="form-text">Doit contenir au moins 2 lettres</div>
 						</div>
 						<div class="mb-3">
 							<label for="address" class="form-label">Adresse</label>
-							<input type="text" class="form-control required" id="address" pattern="[a-zA-Z0-9\- ]+" aria-describedby="addressHelp" required>
+							<input type="text" class="form-control required" id="address" pattern="[a-zA-ZÀ-ÿ0-9\- ]{5,}" aria-describedby="addressHelp" required>
 							<div id="addressHelp" class="form-text">Doit contenir des chiffres et/ou des lettres</div>
 						</div>
 						<div class="mb-3">
 							<label for="city" class="form-label">Ville</label>
-							<input type="text" class="form-control" id="city" pattern="[a-zA-Z]{2,}" aria-describedby="cityHelp" required>
+							<input type="text" class="form-control" id="city" pattern="[a-zA-ZÀ-ÿ]{2,}" aria-describedby="cityHelp" required>
 							<div id="cityHelp" class="form-text">Doit contenir au moins 2 lettres</div>
 						</div>
 						<div class="mb-3">
